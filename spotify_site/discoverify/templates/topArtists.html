@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Discoverify</title>
+        <style>
+            .button-group .button {
+                background-color: #17352e;
+                border: 4px solid white;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 55px;
+                float: left;
+                cursor: pointer;
+                transition-duration: 0.4s;
+                border-radius: 25px;
+                width: 500px;
+            }
+            .button-group {
+                display: flex;
+                justify-content: center;
+                position: relative;
+            }
+            .button:hover {
+                color: #1DB954;
+                border: 4px solid #1DB954;
+            }
+            .stats-button:hover {
+                content: "- My Stats";
+            }
+            .artists-button:hover {
+                content: "- My Artists";
+            }
+            .inner-text {
+                display: none;
+                z-index: 1;
+                position: absolute;
+            }
+            .login-button {
+                background-color: #17352e;
+                border: 2px solid white;
+                color: white;
+                border-radius: 10px;
+                float: right;
+                font-size: 25px;
+                margin-right: 400px;
+            }
+            .login-button:hover {
+                color: #1DB954;
+                border: 2px solid #1DB954;
+                cursor: pointer;
+            }
+            .inner-button {
+                background-color: #17352e;
+                border: 2px solid white;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                float: none;
+                font-size: 30px;
+                width: 500px;
+                border-radius: 10px;
+            }
+            .inner-button:hover {
+                color: #1DB954;
+                border: 2px solid #1DB954;
+                cursor: pointer;
+            }
+            .stats:hover .stats-text {
+                display: block;
+            }
+            .artists:hover .artist-text {
+                display: block;
+            }
+            .title-text {
+                color: #1DB954; 
+                font-size: 40px; 
+                margin-left: 50px; 
+                clear: both; 
+                margin-top: 50px;
+            }
+            .artist-text {
+                color: white;
+                font-size: 30px;
+                margin: 40px;
+            }
+            .artist-images {
+                float: left;
+                clear: both;
+                width: 100px;
+                margin-bottom: 20px;
+                margin-left: 100px;
+                margin-right: 60px;
+            }
+        </style>
+        <script>
+
+            function setPage(page) {
+                location.href = window.location.href.split('topArtists')[0] + page;
+            }
+        </script>
+    </head>
+    <body style="background-color: #17352e;">
+        <div>
+            <button class="login-button"
+            onclick="setPage('home');">Home</button>
+            <h1 style="color: #1DB954; font-size: 50px; text-align: center; margin-left:460px;">Discoverify</h1>
+        </div>
+        <div class="button-group" style='clear:both;'>
+            <div class = "stats">
+                <button class="button stats-button" style="clear:both;">+ My Stats</button>
+                <div class = "stats-text inner-text">
+                    <button class="inner-button" style="margin-top: 80px; float:left;"
+                    onclick="setPage('topArtists');">My Top Artists</button>
+                    <button class="inner-button" style="float:left; clear:both; margin-top: 5px;"
+                    onclick="setPage('topTracks');">My Top Songs</button>
+                </div>
+            </div>
+            <div class ="artists" style="margin-left: 10px;">
+                <button class="button artist-button">+ My Artists</button>
+                <div class = "artist-text inner-text">
+                    <button class="inner-button" style="margin-top: 80px; float:left;"
+                    onclick="setPage('savedArtists');">My Saved Artists</button>
+                    <button class="inner-button" style="float:left; clear:both; margin-top: 5px;"
+                    onclick="setPage('findArtists');">Find Artists</button>
+                </div>
+            </div>
+        </div>
+        <h2 class="title-text">My Top Artists</h2>
+        <h2 class="title-text">Short Term</h2>
+        <div id="artists" style="clear:both;">
+            {% for x in short_artists %}
+                <img class='artist-images' src={{x.image_url}}>
+                <a class='artist-text'>{{x.name}}</a>
+                <br><br><br><br><br><br><br><br><br>
+            {% endfor %}
+        </div>
+        <h2 class="title-text">Medium Term</h2>
+        <div id="artists" style="clear:both;">
+            {% for x in medium_artists %}
+                <img class='artist-images' src={{x.image_url}}>
+                <a class='artist-text'>{{x.name}}</a>
+                <br><br><br><br><br><br><br><br><br>
+            {% endfor %}
+        </div>
+        <h2 class="title-text">Long Term</h2>
+        <div id="artists" style="clear:both;">
+            {% for x in long_artists %}
+                <img class='artist-images' src={{x.image_url}}>
+                <a class='artist-text'>{{x.name}}</a>
+                <br><br><br><br><br><br><br><br><br>
+            {% endfor %}
+        </div>
+    </body>
+</html>
