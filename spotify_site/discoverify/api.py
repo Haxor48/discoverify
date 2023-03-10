@@ -13,7 +13,7 @@ Song = namedtuple('Song', ['name', 'artist', 'image_url'])
 scope = 'playlist-read-private playlist-modify-private user-top-read'
 
 def authorize(url: str) -> str:
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     os.environ['SPOTIPY_CLIENT_ID'] = read[0]
@@ -29,7 +29,7 @@ def authorize(url: str) -> str:
 def get_top_artists(request, time: str) -> list[Artist]:
     base = request.build_absolute_uri().split('topArtists')[0]
     token = '{}topArtists/?{}'.format(base, request.GET.urlencode())
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".cache-")
@@ -46,7 +46,7 @@ def get_top_artists(request, time: str) -> list[Artist]:
 def get_top_songs(request, time: str) -> list[Song]:
     base = request.build_absolute_uri().split('topArtists')[0]
     token = '{}topArtists/?{}'.format(base, request.GET.urlencode())
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".cache-")
@@ -115,7 +115,7 @@ def _get_top_in_dict(sp, recommended_artists) -> list[RecommendArtist]:
 def recommend_artists(request) -> list[RecommendArtist]:
     base = request.build_absolute_uri().split('topArtists')[0]
     token = '{}topArtists/?{}'.format(base, request.GET.urlencode())
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".cache-")
@@ -139,7 +139,7 @@ def recommend_artists(request) -> list[RecommendArtist]:
             if artist['id'] not in no_recommend:
                 no_recommend.add(artist['id'])
         liked_artists = []
-        connection = sqlite3.connect('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\user_info.db')
+        connection = sqlite3.connect('./discoverify/user_info.db')
         cursor = connection.execute('''
                                 SELECT *
                                 FROM user_info
@@ -211,7 +211,7 @@ def recommend_artists(request) -> list[RecommendArtist]:
 def unlike_artist(request, id: str, like: bool):
     base = request.build_absolute_uri().split('topArtists')[0]
     token = '{}topArtists/?{}'.format(base, request.GET.urlencode())
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".cache-")
@@ -220,7 +220,7 @@ def unlike_artist(request, id: str, like: bool):
     if token_info:
         sp = spotipy.Spotify(auth = token_info['access_token'])
         user = sp.current_user()
-        connection = sqlite3.connect('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\user_info.db')
+        connection = sqlite3.connect('./discoverify/user_info.db')
         cursor = connection.execute('''
                                 SELECT *
                                 FROM user_info
@@ -247,7 +247,7 @@ def unlike_artist(request, id: str, like: bool):
 def like_artist(request, id: str, like: bool):
     base = request.build_absolute_uri().split('topArtists')[0]
     token = '{}topArtists/?{}'.format(base, request.GET.urlencode())
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".cache-")
@@ -256,7 +256,7 @@ def like_artist(request, id: str, like: bool):
     if token_info:
         sp = spotipy.Spotify(auth = token_info['access_token'])
         user = sp.current_user()
-        connection = sqlite3.connect('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\user_info.db')
+        connection = sqlite3.connect('./discoverify/user_info.db')
         cursor = connection.execute('''
                                     SELECT *
                                     FROM user_info
@@ -315,7 +315,7 @@ def like_artist(request, id: str, like: bool):
 def get_liked_artists(request, like: bool) -> list[RecommendArtist]:
     base = request.build_absolute_uri().split('topArtists')[0]
     token = '{}topArtists/?{}'.format(base, request.GET.urlencode())
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".cache-")
@@ -325,7 +325,7 @@ def get_liked_artists(request, like: bool) -> list[RecommendArtist]:
     if token_info:
         sp = spotipy.Spotify(auth = token_info['access_token'])
         user = sp.current_user()
-        connection = sqlite3.connect('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\user_info.db')
+        connection = sqlite3.connect('./discoverify/user_info.db')
         cursor = None
         if like:
             cursor = connection.execute('''
@@ -352,7 +352,7 @@ def get_liked_artists(request, like: bool) -> list[RecommendArtist]:
 def create_recommended_playlist(request) -> list[RecommendArtist]:
     base = request.build_absolute_uri().split('topArtists')[0]
     token = '{}topArtists/?{}'.format(base, request.GET.urlencode())
-    reader = Path('D:\\ML_B_Website\\spotify_site\\spotify_site\\discoverify\\data\\credentials.txt').open('r')
+    reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
     oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".cache-")
