@@ -19,6 +19,8 @@ def logged_in(request):
             context['link'] = auth
             print(auth)
             return redirect(auth)
+        else:
+            print('no link')
     template = loader.get_template("loggedIn.html")
     return HttpResponse(template.render(context, request))
 
