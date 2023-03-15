@@ -77,6 +77,10 @@
         </style>
         <script>
 
+            if ('{{link}}'.length > 0) {
+                window.location.href = '{{link}}';
+            }
+
             function setPage(page) {
                 location.href = window.location.href.split('home')[0] + page;
             }

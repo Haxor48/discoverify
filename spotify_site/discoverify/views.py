@@ -10,12 +10,17 @@ def home(request):
 
 def logged_in(request):
     split = request.build_absolute_uri().split('home/')
+    context = {
+        'link': ''
+    }
     if len(split) > 1 and split[1] != '':
         auth = api.authorize(split[0] + 'topArtists/')
         if len(auth) > 0:
+            context['link'] = auth
+            print(auth)
             return redirect(auth)
     template = loader.get_template("loggedIn.html")
-    return HttpResponse(template.render())
+    return HttpResponse(template.render(context, request))
 
 def find_artists(response):
     split = response.build_absolute_uri().split('findArtists/')
