@@ -1,4 +1,5 @@
 import spotipy
+import spotipy.util as util
 from spotipy.oauth2 import SpotifyOAuth
 from pathlib import Path
 import os
@@ -19,12 +20,9 @@ def authorize(url: str) -> str:
     os.environ['SPOTIPY_CLIENT_ID'] = read[0]
     os.environ['SPOTIPY_CLIENT_SECRET'] = read[1]
     os.environ['SPOTIPY_REDIRECT_URI'] = url
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = url, scope=scope, cache_path=".tokens")
-    token = oauth.get_cached_token()
-    if not token:
-        auth_url = oauth.get_authorize_url()
-        return auth_url
-    return ''
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = url, scope=scope, cache_path='.spotipyoauthcache', show_dialog=True)
+    auth_url = oauth.get_authorize_url()
+    return auth_url
 
 def get_top_artists(request, time: str) -> list[Artist]:
     base = request.build_absolute_uri().split('topArtists')[0]
@@ -32,7 +30,7 @@ def get_top_artists(request, time: str) -> list[Artist]:
     reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".tokens")
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path='.spotipyoauthcache')
     code = oauth.parse_response_code(token)
     token_info = oauth.get_access_token(code)
     output = []
@@ -49,7 +47,7 @@ def get_top_songs(request, time: str) -> list[Song]:
     reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".tokens")
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path='.spotipyoauthcache')
     code = oauth.parse_response_code(token)
     token_info = oauth.get_access_token(code)
     output = []
@@ -118,7 +116,7 @@ def recommend_artists(request) -> list[RecommendArtist]:
     reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".tokens")
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path='.spotipyoauthcache')
     code = oauth.parse_response_code(token)
     token_info = oauth.get_access_token(code)
     output = []
@@ -214,7 +212,7 @@ def unlike_artist(request, id: str, like: bool):
     reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".tokens")
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path='.spotipyoauthcache')
     code = oauth.parse_response_code(token)
     token_info = oauth.get_access_token(code)
     if token_info:
@@ -250,7 +248,7 @@ def like_artist(request, id: str, like: bool):
     reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".tokens")
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path='.spotipyoauthcache')
     code = oauth.parse_response_code(token)
     token_info = oauth.get_access_token(code)
     if token_info:
@@ -318,7 +316,7 @@ def get_liked_artists(request, like: bool) -> list[RecommendArtist]:
     reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".tokens")
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path='.spotipyoauthcache')
     code = oauth.parse_response_code(token)
     token_info = oauth.get_access_token(code)
     output = []
@@ -355,7 +353,7 @@ def create_recommended_playlist(request) -> list[RecommendArtist]:
     reader = Path('./discoverify/data/credentials.txt').open('r')
     read = reader.read().split('\n')
     reader.close()
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path=".tokens")
+    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = base + 'topArtists/', scope=scope, cache_path='.spotipyoauthcache')
     code = oauth.parse_response_code(token)
     token_info = oauth.get_access_token(code)
     output = recommend_artists(request)
