@@ -10,6 +10,10 @@ RecommendArtist = namedtuple('RecommendArtist', ['name', 'image_url', 'id'])
 ArtistCalc = namedtuple('ArtistCalc', ['id', 'score'])
 Song = namedtuple('Song', ['name', 'artist', 'image_url'])
 
+SPOTIPY_CLIENT_ID = 'e2727b5e29274e5fb905ccdead5e823a'
+SPOTIPY_CLIENT_SECRET = '213c52c5d65f4fe181682134dce496e1'
+SPOTIPY_REDIRECT_URI = 'http://18.119.126.8:8000/topArtists/'
+
 scope = 'playlist-read-private playlist-modify-private user-top-read'
 
 def authorize(url: str) -> str:
@@ -19,7 +23,7 @@ def authorize(url: str) -> str:
     os.environ['SPOTIPY_CLIENT_ID'] = read[0]
     os.environ['SPOTIPY_CLIENT_SECRET'] = read[1]
     os.environ['SPOTIPY_REDIRECT_URI'] = url
-    oauth = SpotifyOAuth(client_id = read[0], client_secret = read[1], redirect_uri = url, scope=scope, cache_path=".cache-")
+    oauth = SpotifyOAuth(client_id = SPOTIPY_CLIENT_ID, client_secret = SPOTIPY_CLIENT_SECRET, redirect_uri = SPOTIPY_REDIRECT_URI, scope=scope, cache_path=".cache-")
     token = oauth.get_cached_token()
     if not token:
         auth_url = oauth.get_authorize_url()
