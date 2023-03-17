@@ -13,14 +13,11 @@ def logged_in(request):
     context = {
         'link': ''
     }
-    if len(split) > 1 and split[1] != '':
+    if len(split) < 1 or split[1] == '':
         auth = api.authorize(split[0] + 'topArtists/')
         if len(auth) > 0:
             context['link'] = auth
-            print(auth)
             return redirect(auth)
-        else:
-            print('no link')
     template = loader.get_template("loggedIn.html")
     return HttpResponse(template.render(context, request))
 
