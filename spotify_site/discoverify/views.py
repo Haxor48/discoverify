@@ -14,7 +14,7 @@ def logged_in(request):
         'link': ''
     }
     if len(split) < 1 or split[1] == '':
-        auth = api.authorize(split[0] + 'topArtists/')
+        auth = api.authorize(request, split[0] + 'topArtists/')
         if len(auth) > 0:
             context['link'] = auth
             return redirect(auth)
